@@ -1,10 +1,6 @@
 
 <!--page/recorder/index.wxml-->
 <view class="container">
-  <view class="audio">
-    <audio bindpause="defaultPause" bindplay="defaultPlay" poster="{{audioInfo.poster}}" name="{{audioInfo.name}}" author="{{audioInfo.author}}" src="{{audioInfo.src}}" id="myAudio" controls loop></audio>
-    <text></text>
-  </view>
   <view class="page-body">
     <view class="page-section">
       <block wx:if="{{recording === false && playing === false && hasRecord === false}}">
@@ -69,24 +65,21 @@
     </view>
   </view>
   <view class="flex-row btn-list">
-    <button type="primary" bindtap="audioPlay">{{play}}</button>
-    <button type="primary" bindtap="audioRepeat">{{repeat}}</button>
-    <block wx:if="{{recording === false && playing === false && hasRecord === false}}">
-      <button type="default" bindtap="startRecord">{{record}}</button>
 
+    <block wx:if="{{recording === false && playing === false && hasRecord === false}}">
+      <button type="primary" bindtap="startRecord">{{record}}</button>
     </block>
     <block wx:if="{{recording === true}}">
-      <button type="default" bindtap="stopRecord">{{stopRecord}}</button>
-
+      <button type="primary" bindtap="stopRecord">{{stopRecord}}</button>
     </block>
-    <!-- <block wx:if="{{hasRecord === true && playing === false}}"> -->
-      <button type="default" bindtap="playVoice">{{playVoice}}</button>  
-    <!-- </block> -->
-    <!-- <block wx:if="{{hasRecord === true && playing === true}}"> -->
-      <button type="default" bindtap="stopVoice">{{stopVoice}}</button>
-    <!-- </block> -->
-<!-- <block wx:if="{{hasRecord === true}}"> -->
-    <button type="default" bindtap="saveVoice">{{saveVoice}}</button>
-    <!-- </block> -->
+    <block wx:if="{{hasRecord === true && playing === false}}">
+      <button type="primary" bindtap="playVoice">{{playVoice}}</button>  
+    </block>
+    <block wx:if="{{hasRecord === true && playing === true}}">
+      <button type="primary" bindtap="stopVoice">{{stopVoice}}</button>
+    </block>
+<block wx:if="{{hasRecord === true}}">
+    <button type="primary" bindtap="saveVoice">{{saveVoice}}</button>
+    </block>
   </view>
 </view>

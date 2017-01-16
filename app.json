@@ -1,7 +1,8 @@
 {
     "pages": [
         "page/recorder/index",
-        "page/index/index"
+        "page/index/index",
+        "page/media/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -25,6 +26,11 @@
             "iconPath": "image/punchteam.png",
             "selectedIconPath": "image/punchteam_se.png",
             "text": "录音"
+        }, {
+            "pagePath": "page/media/index",
+            "iconPath": "image/icon.png",
+            "selectedIconPath": "image/icon_se.png",
+            "text": "音频"
         }]
     },
     "networkTimeout": {
