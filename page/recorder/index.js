@@ -1,8 +1,5 @@
 // page/recorder/index.js
 var util = require('../../util/util.js')
-const PLAY = "播放音频"
-const REPEAT = "重播音频"
-const PAUSE = "暂停播放"
 
 const PLAY_RECORD = "开始录音"
 const STOP_RECORD = "停止录音"
@@ -26,60 +23,12 @@ Page({
     playTime: 0,
     formatedRecordTime: '00:00:00',
     formatedPlayTime: '00:00:00',
-    play: PLAY,
-    repeat: REPEAT,
-    record: PLAY_RECORD,
-    playRecord: PLAY_VOICE,
+    playRecord: PLAY_RECORD,
     stopRecord: STOP_RECORD,
     playVoice: PLAY_VOICE,
     stopVoice: STOP_VOICE,
     saveVoice: SAVE_VOICE,
-    audioInfo: {
-      poster: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
-      name: '此时此刻',
-      author: '许巍',
-      controls: false,
-      src: 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46'
-    },
-
-  },
-  audioPause: function() {
-    this.audioCtx.pause()
-  },
-  audioToggle: function(btnName, defaultName) {
-    let otherBtnName = btnName === "play" ? "repeat" : "play"
-    if (this.data[btnName] === defaultName) {
-      this.audioCtx.play()
-      this.setData({
-        [btnName]: PAUSE,
-        [otherBtnName]: otherBtnName.toUpperCase() === "PLAY" ? PLAY : REPEAT
-      });
-      return false
-    }
-    this.setData({
-      [btnName]: defaultName
-    });
-    this.audioPause()
-  },
-  audioPlay: function() {
-    this.audioToggle('play', PLAY)
-  },
-  audioRepeat: function() {
-    this.audioCtx.seek(0)
-    this.audioToggle('repeat', REPEAT)
-  },
-  defaultPause: function() {
-    this.setData({
-      play: PLAY,
-      repeat: REPEAT
-    })
-  },
-  onHide: function() {
-    if (this.data.playing) {
-      this.stopVoice()
-    } else if (this.data.recording) {
-      this.stopRecordUnexpectedly()
-    }
+    message: '' // 作用是打印一些返回值信息， 主要是小程序的接口文档不全，所以需要自己打印出来看看
   },
   startRecord: function() {
     this.setData({
@@ -94,8 +43,25 @@ Page({
         recordTime: recordTime
       })
     }, 1000)
+
     wx.startRecord({
       success: function(res) {
+
+        // @ tempFilePath: wxfile://    本地临时录音的路径 
+        // @ errMsg:  startRecord : ok  应该是返回信息
+
+        wx.saveFile({
+          tempFilePath: res.tempFilePath,
+          success: function(res) {
+            // @ savedFilePath: wxfile://    本地临时录音的路径 
+            // @ errMsg:  saveFile : ok  应该是返回信息
+            wx.showModal({
+              title:"保存成功",
+              content:"文件路径是" + res.savedFilePath
+            })
+          }
+        })
+
         that.setData({
           hasRecord: true,
           tempFilePath: res.tempFilePath,
@@ -107,6 +73,12 @@ Page({
           recording: false
         })
         clearInterval(recordTimeInterval)
+      },
+      fail: function(res) {
+        wx.showToast({
+          title: res.message,
+          duration: 2000
+        })
       }
     })
   },

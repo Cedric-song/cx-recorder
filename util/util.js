@@ -30,7 +30,23 @@ function formatLocation(longitude, latitude) {
   }
 }
 
+function formatDate (time){
+    let _time = time
+    if (typeof _time !== 'number' || _time < 0) {
+      return _time
+    }
+    if( _time.toString().length === 10 ){
+      _time = parseInt(_time.toString().concat('000'))
+    }
+
+    let date = new Date(_time)
+
+    return ([date.getFullYear(),date.getMonth() + 1,date.getDate()]).map(function(item){
+      return item.toString()
+    })
+}
 module.exports = {
   formatTime: formatTime,
-  formatLocation: formatLocation
+  formatLocation: formatLocation,
+  formatDate: formatDate
 }

@@ -3,4 +3,12 @@
   <view class="usermotto">
     <text class="user-motto">{{message}}</text>
   </view>
+
+  <block wx:for="{{file}}">
+    <view>
+      <text>{{index}}. 文件路径{{item.filePath}}</text>
+      <text>{{index}}. 文件大小{{item.size}}</text>
+      <text>{{index}}. 创建时间{{item.createTime}}</text>
+    </view>
+  </block>
 </view>

@@ -65,9 +65,9 @@
     </view>
   </view>
   <view class="flex-row btn-list">
-
+  {{message}}
     <block wx:if="{{recording === false && playing === false && hasRecord === false}}">
-      <button type="primary" bindtap="startRecord">{{record}}</button>
+      <button type="primary" bindtap="startRecord">{{playRecord}}</button>
     </block>
     <block wx:if="{{recording === true}}">
       <button type="primary" bindtap="stopRecord">{{stopRecord}}</button>
