@@ -17,7 +17,27 @@
 }
 
 .usermotto {
-  margin-top: 200px;
-  text-align: center;
+  margin:20rpx 0;
+text-align:center;
+background:#eee;
+padding:20rpx;
+
 }
 
+.filelist {
+  padding:10rpx;
+  margin-bottom:10rpx;
+}
+
+.odd {
+    background:green;
+}
+
+.even {
+  background:red;
+}
+.filelist text{
+  display: block;
+  font-size:9pt;
+  overflow: scroll;
+}

@@ -5,6 +5,10 @@
     flex-direction:row;
 }
 
+.container {
+  min-height: 100%;
+}
+
 .btn-list button {
     flex:1;    
 }

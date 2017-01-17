@@ -1,11 +1,13 @@
 //index.js
+var formatDate = require('../../util/util.js').formatDate
+
 Page({
   data: {
     nickName: '',
     file: [],
     message: ''
   },
-  onReady: function(options) {
+  onShow: function(options) {
     let app = getApp()
     const nickName = app.userInfo.nickName
     this.setData({
@@ -31,7 +33,7 @@ Page({
           let data = {
             [filePath]: item.filePath,
             [size]: item.size,
-            [createTime]: item.createTime,
+            [createTime]: formatDate(item.createTime),
           }
           // console.log(data)
           that.setData(data)

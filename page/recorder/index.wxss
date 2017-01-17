@@ -1,4 +1,7 @@
 /* page/recorder/index.wxss */
+.container {
+  min-height: 100%;
+}
 
 .flex-row {
     display: flex;

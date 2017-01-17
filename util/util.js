@@ -42,9 +42,15 @@ function formatDate (time){
     let date = new Date(_time)
 
     return ([date.getFullYear(),date.getMonth() + 1,date.getDate()]).map(function(item){
-      return item.toString()
-    })
+      let _item = item.toString()
+      return _item[1] ? _item : '0'.concat(_item) 
+    }).join("/").concat(" ").concat(([date.getHours(),date.getMinutes(),date.getSeconds()]).map(function(item){
+      let _item = item.toString()
+      return _item[1] ? _item : '0'.concat(_item) 
+    }).join(":"))
 }
+
+
 module.exports = {
   formatTime: formatTime,
   formatLocation: formatLocation,
