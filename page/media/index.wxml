@@ -3,7 +3,6 @@
 <view class="container">
   <view class="audio">
     <audio bindpause="defaultPause" bindplay="defaultPlay" poster="{{audioInfo.poster}}" name="{{audioInfo.name}}" author="{{audioInfo.author}}" src="{{audioInfo.src}}" id="myAudio" controls loop></audio>
-    <text></text>
   </view>
   
   <view class="flex-row btn-list">

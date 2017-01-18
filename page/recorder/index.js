@@ -27,8 +27,7 @@ Page({
     stopRecord: STOP_RECORD,
     playVoice: PLAY_VOICE,
     stopVoice: STOP_VOICE,
-    saveVoice: SAVE_VOICE,
-    message: '' // 作用是打印一些返回值信息， 主要是小程序的接口文档不全，所以需要自己打印出来看看
+    saveVoice: SAVE_VOICE
   },
   startRecord: function() {
     this.setData({
@@ -49,30 +48,32 @@ Page({
 
         // @ tempFilePath: wxfile://    本地临时录音的路径 
         // @ errMsg:  startRecord : ok  应该是返回信息
-
-        wx.saveFile({
-          tempFilePath: res.tempFilePath,
-          success: function(res) {
-            // @ savedFilePath: wxfile://    本地临时录音的路径 
-            // @ errMsg:  saveFile : ok  应该是返回信息
-            wx.showModal({
-              title:"保存成功",
-              content:"文件路径是" + res.savedFilePath
-            })
-          }
-        })
-
         that.setData({
           hasRecord: true,
           tempFilePath: res.tempFilePath,
           formatedPlayTime: util.formatTime(that.data.playTime)
         })
+        console.log("res.tempFilePath1:"+res.tempFilePath)
+        console.log("res.tempFilePath2:"+that.data.tempFilePath)
       },
       complete: function() {
         that.setData({
           recording: false
         })
         clearInterval(recordTimeInterval)
+        console.log("res.tempFilePath3:"+that.data.tempFilePath)
+        wx.saveFile({
+          tempFilePath: that.data.tempFilePath,
+          success: function(res) {
+            // @ savedFilePath: wxfile://    本地临时录音的路径 
+            // @ errMsg:  saveFile : ok  应该是返回信息
+            wx.showModal({
+              title: "保存成功",
+              content: "文件路径是" + res.savedFilePath
+            })
+          }
+        })
+        console.log("res.tempFilePath4:"+that.data.tempFilePath)
       },
       fail: function(res) {
         wx.showToast({
@@ -83,7 +84,7 @@ Page({
     })
   },
   stopRecord: function() {
-    wx.stopRecord()
+    wx.stopRecord()    
   },
   stopRecordUnexpectedly: function() {
     var that = this

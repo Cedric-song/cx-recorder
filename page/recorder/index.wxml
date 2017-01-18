@@ -65,7 +65,6 @@
     </view>
   </view>
   <view class="flex-row btn-list">
-  {{message}}
     <block wx:if="{{recording === false && playing === false && hasRecord === false}}">
       <button type="primary" bindtap="startRecord">{{playRecord}}</button>
     </block>
@@ -78,8 +77,8 @@
     <block wx:if="{{hasRecord === true && playing === true}}">
       <button type="primary" bindtap="stopVoice">{{stopVoice}}</button>
     </block>
-<block wx:if="{{hasRecord === true}}">
-    <button type="primary" bindtap="saveVoice">{{saveVoice}}</button>
+    <block wx:if="{{hasRecord === true}}">
+      <button type="primary" bindtap="saveVoice">{{saveVoice}}</button>
     </block>
   </view>
 </view>
