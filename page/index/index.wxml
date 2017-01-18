@@ -4,14 +4,9 @@
   <view class="usermotto">
     <text class="user-motto">{{message}}</text>
   </view>
-
-  <!--<view class="filelist odd">
-      <text>. 文件路径: WAService.js:3 请使用 encryptedData 和 iv 字段进行解密，详见：https://mp.weixin.qq.com/debug/wxadoc/dev/api/open.html</text>
-      <text>. 文件大小: ..........................................................................</text>
-      <text>. 创建时间: ..........................................................................</text>
-  </view>-->
+  
   <block wx:for="{{file}}">
-    <view class="filelist {{index%2 === 0 ? 'odd' : 'even'}}">
+    <view  bindtap="clearFile" class="filelist {{index%2 === 0 ? 'odd' : 'even'}}" data-filePath="{{item.filePath}}" data-index="{{index}}">
       <text>序号：{{index + 1}}</text>
       <text>文件路径：{{item.filePath}}</text>
       <text>文件大小：{{item.size}}B</text>

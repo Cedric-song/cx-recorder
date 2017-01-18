@@ -1,10 +1,6 @@
 // page/recorder/index.js
 var util = require('../../util/util.js')
 
-const PLAY_RECORD = "开始录音"
-const STOP_RECORD = "停止录音"
-const PLAY_VOICE = "回放录音"
-const STOP_VOICE = "停止回放"
 const SAVE_VOICE = "保存录音"
 
 var playTimeInterval
@@ -23,10 +19,6 @@ Page({
     playTime: 0,
     formatedRecordTime: '00:00:00',
     formatedPlayTime: '00:00:00',
-    playRecord: PLAY_RECORD,
-    stopRecord: STOP_RECORD,
-    playVoice: PLAY_VOICE,
-    stopVoice: STOP_VOICE,
     saveVoice: SAVE_VOICE
   },
   startRecord: function() {
@@ -53,27 +45,13 @@ Page({
           tempFilePath: res.tempFilePath,
           formatedPlayTime: util.formatTime(that.data.playTime)
         })
-        console.log("res.tempFilePath1:"+res.tempFilePath)
-        console.log("res.tempFilePath2:"+that.data.tempFilePath)
       },
       complete: function() {
         that.setData({
           recording: false
         })
         clearInterval(recordTimeInterval)
-        console.log("res.tempFilePath3:"+that.data.tempFilePath)
-        wx.saveFile({
-          tempFilePath: that.data.tempFilePath,
-          success: function(res) {
-            // @ savedFilePath: wxfile://    本地临时录音的路径 
-            // @ errMsg:  saveFile : ok  应该是返回信息
-            wx.showModal({
-              title: "保存成功",
-              content: "文件路径是" + res.savedFilePath
-            })
-          }
-        })
-        console.log("res.tempFilePath4:"+that.data.tempFilePath)
+
       },
       fail: function(res) {
         wx.showToast({
@@ -112,6 +90,7 @@ Page({
         playTime: playTime
       })
     }, 1000)
+    console.log("this.data.tempFilePath:" + this.data.tempFilePath)
     wx.playVoice({
       filePath: this.data.tempFilePath,
       success: function() {
@@ -143,17 +122,25 @@ Page({
     wx.stopVoice()
   },
   saveVoice: function() {
-    wx.saveFile({
-      success: function(res) {
-        var tempFilePath = res.tempFilePath
+      var that = this
         wx.saveFile({
-          tempFilePath: tempFilePath,
+          tempFilePath: this.data.tempFilePath,
           success: function(res) {
-            var savedFilePath = res.savedFilePath
+            // @ savedFilePath: wxfile://    本地临时录音的路径 
+            // @ errMsg:  saveFile : ok  应该是返回信息
+            wx.showModal({
+              title: "保存成功",
+              content: "文件路径是" + res.savedFilePath
+            })
+            
+            that.setData({
+              tempFilePath: res.savedFilePath,
+            })
+
+            console.log("that.data.tempFilePath:"+that.data.tempFilePath)
+
           }
         })
-      }
-    })
   },
   clear: function() {
     clearInterval(playTimeInterval)

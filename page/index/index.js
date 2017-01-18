@@ -7,7 +7,7 @@ Page({
     file: [],
     message: ''
   },
-  onReady: function(options) {
+  onReady: function (options) {
     let app = getApp()
     const nickName = app.userInfo.nickName
     this.setData({
@@ -15,51 +15,78 @@ Page({
       message: "Hello, " + nickName
     })
   },
-  onShow: function(options) {
+  onShow: function (options) {
     this.getFileContent()
   },
-  getFileContent: function() {
+  getFileContent: function () {
     var that = this
     wx.getSavedFileList({
-      success: function(res) {
+      success: function (res) {
         // @ filePath
         // @ size
         // @ createTime       
-        
+
         // 按照文件生成时间排序
         var arr = []
-        res.fileList.map(function(item){
-          var index
-          for(let i=0;i<arr.length;i++){
-            index = i
-            if( item.createTime < arr[i].createTime ){
-              break
+        res.fileList.map(function (item) {
+          if ( arr.length === 0) {
+            console.log(0)
+            arr.push(item)
+          } else {
+            let index
+            
+            for (let i = 0; i < arr.length; i++) {
+              if ( item.createTime < arr[i].createTime ) {
+                index = i
+                break
+              }
+              index = i + 1
             }
+            arr.splice(index, 0, item)
           }
-          arr.splice(index,0,item)
         })
 
-        arr.map(function(item, i) {
-            let str = 'file[' + i + ']'
-            let filePath = str + '.filePath'
-            let size = str + '.size'
-            let createTime = str + '.createTime'
-            
-            let data = {
-                [filePath]: item.filePath,
-                [size]: item.size,
-                [createTime]: formatDate(item.createTime),
-              }
-              // console.log(data)
-            that.setData(data)
-          })
-          // console.log(JSON.stringify(that.data.file))
+        arr.map(function (item, i) {
+          let str = 'file[' + i + ']'
+          let filePath = str + '.filePath'
+          let size = str + '.size'
+          let createTime = str + '.createTime'
+
+          let data = {
+            [filePath]: item.filePath,
+            [size]: item.size,
+            [createTime]: formatDate(item.createTime),
+          }
+          // console.log(data)
+          that.setData(data)
+        })
+        // console.log(JSON.stringify(that.data.file))
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.showToast({
           title: '获取缓存文件失败',
           icon: 'fail',
           duration: 2000
+        })
+      }
+    })
+  },
+  clearFile: function (event) {
+    //event.currentTarget.dataset.filepath
+    var that = this
+    wx.removeSavedFile({
+      filePath: event.currentTarget.dataset.filepath,
+      success: function () {
+        wx.showModal({
+          title: "删除成功",
+          content: "文件路径：" + event.currentTarget.dataset.filepath,
+          success: function () {
+            let index = event.currentTarget.dataset.index
+            that.data.file.splice(index, 1)
+            that.setData({
+              file: that.data.file
+            })
+          }
         })
       }
     })
