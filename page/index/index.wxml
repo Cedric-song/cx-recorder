@@ -12,5 +12,8 @@
       <text>文件大小：{{item.size}}B</text>
       <text>创建时间：{{item.createTime}}</text>
     </view>
+    <view>
+      <button></button>
+    </view>
   </block>
 </view>
